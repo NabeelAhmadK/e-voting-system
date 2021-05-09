@@ -10,7 +10,7 @@ const Verification = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const onIdCardVerification = () => {
-        showModal()
+        showModal();
     };
 
     const showModal = () => {
