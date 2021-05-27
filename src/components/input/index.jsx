@@ -2,9 +2,11 @@ import React from 'react'
 import { Input, Tooltip } from 'antd';
 import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
 
-const input = ({ placeHolder, toolTipLabel }) => {
+const input = ({ placeHolder, toolTipLabel, value, onValueChange }) => {
     return (
         <Input
+            value={value}
+            onChange={(e) => onValueChange(e.target.value)}
             placeholder={placeHolder}
             prefix={<UserOutlined className="site-form-item-icon" />}
             suffix={
