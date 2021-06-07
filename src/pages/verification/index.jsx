@@ -4,6 +4,7 @@ import { Card, Col, Row } from 'antd';
 import Accordion from '../../components/accordion'
 import Input from '../../components/input';
 import Button from '../../components/button';
+import DropDown from '../../components/dropdown';
 
 const questions = [
     {
@@ -16,10 +17,25 @@ const questions = [
     },
 ]
 
+const gender = [
+    {
+        label: 'Male',
+        value: 'm'
+    },
+    {
+        label: 'Female',
+        value: 'f'
+    },
+    {
+        label: 'Other',
+        value: 'x'
+    }
+]
 const Verification = () => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [userCNIC, setUserCNIC] = useState(null);
+    const [selected, setSelected] = useState(gender[0]);
     const [oneTimePassword, setOneTimePassword] = useState(null);
 
     useEffect(() => {
@@ -34,8 +50,15 @@ const Verification = () => {
         setIsModalVisible(true);
     };
 
-    const handleVerifyOTP = () => {
+    const handleVerifyOTP = (event) => {
         setIsModalVisible(false);
+
+        event.preventDefault();
+
+        window.history.pushState({}, '', '/vote')
+
+        const navEvent = new PopStateEvent('popstate');
+        window.dispatchEvent(navEvent)
     };
 
     const handleCancel = () => {
@@ -47,16 +70,25 @@ const Verification = () => {
             <Row gutter={16}>
                 <Col span={8} push={8}>
                     <Card title="Verification" bordered={true}>
-                        Please Enter your CNIC to Vote
-                        <div style={{ marginTop: '20px' }}>
-                            <Input
-                                placeHolder='#####-#######-#'
-                                toolTipLabel="Enter your CNIC with Dashes(-)"
-                                value={userCNIC}
-                                onValueChange={setUserCNIC} />
-                            <small>We'll not share your CNIC with anyone</small>
+                        <div className="field">
+                            <label className="label textBold">Please Enter your CNIC to Vote</label>
+                            <div >
+                                <Input
+                                    placeHolder='#####-#######-#'
+                                    toolTipLabel="Enter your CNIC with Dashes(-)"
+                                    value={userCNIC}
+                                    onValueChange={setUserCNIC} />
+                                <small>We'll not share your CNIC with anyone</small>
+                            </div>
                         </div>
-                        <div style={{ marginTop: '20px', textAlign: 'right' }}>
+                        <div className="mt-20">
+                            <DropDown
+                                selected={selected}
+                                onSelectChange={setSelected}
+                                options={gender}
+                                label="Select a Gender" />
+                        </div>
+                        <div className="mt-20" style={{ textAlign: 'right' }}>
                             <Button text="Submit" buttonType="primary" handleClick={onIdCardVerification} />
                         </div>
                     </Card>
